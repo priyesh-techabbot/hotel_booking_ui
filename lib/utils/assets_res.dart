@@ -35,5 +35,7 @@ class AssetsRes {
   static const message = '$icons/message.png';
   static const search = '$icons/search.png';
   static const share = '$icons/share.png';
+  static const close = '$icons/close.png';
+  static const checkin = '$icons/check-in.png';
   static const user = '$icons/user.png';
 }

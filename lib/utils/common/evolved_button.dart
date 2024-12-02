@@ -75,8 +75,7 @@ class EvolvedButton extends StatelessWidget {
           style: textStyle ??
               Style.textStyle(
                 color: ColorRes.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
         ),
       ),

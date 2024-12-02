@@ -64,7 +64,7 @@ class HomeTopSearchView extends StatelessWidget {
                       ),
                       Image.asset(
                         AssetsRes.user,
-                        height: Globals.instance.largeScreen ? 25.h : 20.h,
+                        height: 22.sp,
                         color: ColorRes.white,
                       ),
                     ],
@@ -97,7 +97,7 @@ class HomeTopSearchView extends StatelessWidget {
                             Image.asset(
                               AssetsRes.search,
                               color: ColorRes.white,
-                              height: 16.h,
+                              height: 20.sp,
                             ),
                             SizedBox(width: 10.w),
                             Expanded(
