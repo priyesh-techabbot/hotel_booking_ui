@@ -38,4 +38,5 @@ class AssetsRes {
   static const close = '$icons/close.png';
   static const checkin = '$icons/check-in.png';
   static const user = '$icons/user.png';
+  static const filter = '$icons/filter.png';
 }

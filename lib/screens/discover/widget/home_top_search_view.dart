@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hotel_booking_ui/screens/search/search_screen.dart';
 import 'package:hotel_booking_ui/services/global_service.dart';
 import 'package:hotel_booking_ui/utils/assets_res.dart';
 import 'package:hotel_booking_ui/utils/color_res.dart';
@@ -79,49 +80,64 @@ class HomeTopSearchView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15.h),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(90.r),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: ColorRes.white.withOpacity(0.2),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 6.h,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              AssetsRes.search,
-                              color: ColorRes.white,
-                              height: 20.sp,
-                            ),
-                            SizedBox(width: 10.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Search places',
-                                    style: Style.textStyle(
-                                      color: ColorRes.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Date range • Number of guest',
-                                    style: Style.textStyle(
-                                      color: ColorRes.ultraLightGrey,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) {
+                          return const FractionallySizedBox(
+                            heightFactor: 0.9,
+                            child: SearchScreen(),
+                          );
+                        },
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(90.r),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: ColorRes.white.withOpacity(0.2),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 6.h,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                AssetsRes.search,
+                                color: ColorRes.white,
+                                height: 20.sp,
                               ),
-                            )
-                          ],
+                              SizedBox(width: 10.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Search places',
+                                      style: Style.textStyle(
+                                        color: ColorRes.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Date range • Number of guest',
+                                      style: Style.textStyle(
+                                        color: ColorRes.ultraLightGrey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

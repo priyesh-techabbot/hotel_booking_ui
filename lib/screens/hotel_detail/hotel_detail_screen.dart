@@ -28,40 +28,69 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
         topRight: Radius.circular(30.r),
       ),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.r),
-                      topRight: Radius.circular(30.r),
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 13,
-                      child: PageView.builder(
-                        onPageChanged: (value) {
-                          imageIndex.value = value;
-                        },
-                        itemBuilder: (context, index) {
-                          return Image.asset(
-                            widget.data.image[index],
-                            width: double.maxFinite,
-                            fit: BoxFit.cover,
-                          );
-                        },
-                        scrollDirection: Axis.horizontal,
-                        itemCount: widget.data.image.length,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 3));
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics()
+                .applyTo(const ClampingScrollPhysics()),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.r),
+                        topRight: Radius.circular(30.r),
+                      ),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 13,
+                        child: PageView.builder(
+                          onPageChanged: (value) {
+                            imageIndex.value = value;
+                          },
+                          itemBuilder: (context, index) {
+                            return Image.asset(
+                              widget.data.image[index],
+                              width: double.maxFinite,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.data.image.length,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 10.h,
-                    left: 10.h,
-                    child: InkWell(
-                      onTap: () => Get.back(),
+                    Positioned(
+                      top: 10.h,
+                      left: 10.h,
+                      child: InkWell(
+                        onTap: () => Get.back(),
+                        child: ClipOval(
+                          child: BackdropFilter(
+                            filter:
+                                ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: ColorRes.black.withOpacity(0.4),
+                                shape: BoxShape.circle,
+                              ),
+                              padding: EdgeInsets.all(6.h),
+                              child: Image.asset(
+                                AssetsRes.close,
+                                height: 16.sp,
+                                color: ColorRes.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 10.h,
+                      right: 10.h,
                       child: ClipOval(
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
@@ -72,225 +101,205 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                             ),
                             padding: EdgeInsets.all(6.h),
                             child: Image.asset(
-                              AssetsRes.close,
-                              height: 16.sp,
+                              AssetsRes.share,
+                              height: 18.sp,
                               color: ColorRes.white,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 10.h,
-                    right: 10.h,
-                    child: ClipOval(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorRes.black.withOpacity(0.4),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: EdgeInsets.all(6.h),
-                          child: Image.asset(
-                            AssetsRes.share,
-                            height: 18.sp,
-                            color: ColorRes.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10.h,
-                    right: 10.h,
-                    child: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorRes.black.withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(30.r),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 4.h),
-                          child: Obx(
-                            () => Text(
-                              '${imageIndex.value + 1} / ${widget.data.image.length}',
-                              style: Style.textStyle(
-                                color: ColorRes.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
+                    Positioned(
+                      bottom: 10.h,
+                      right: 10.h,
+                      child: ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: ColorRes.black.withOpacity(0.4),
+                              borderRadius: BorderRadius.circular(30.r),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.data.name,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 4.h),
+                            child: Obx(
+                              () => Text(
+                                '${imageIndex.value + 1} / ${widget.data.image.length}',
                                 style: Style.textStyle(
-                                  fontSize: 16,
+                                  color: ColorRes.white,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              SizedBox(height: 5.h),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star_rounded,
-                                    size: 22.sp,
-                                    color: Colors.orange,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.data.name,
+                                  style: Style.textStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  Text(
-                                    '${widget.data.rating} (${widget.data.review})',
-                                    style: Style.textStyle(
-                                      fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(height: 5.h),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star_rounded,
+                                      size: 22.sp,
+                                      color: Colors.orange,
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      '${widget.data.rating} (${widget.data.review})',
+                                      style: Style.textStyle(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '  \$${widget.data.offerPrice}',
+                                style: Style.textStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorRes.successColor,
+                                ),
+                              ),
+                              Text(
+                                '\$${widget.data.price}',
+                                style: Style.textStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  fontSize: 12,
+                                  color: ColorRes.errorColor,
+                                ),
+                              ),
+                              Text(
+                                '+ \$${widget.data.tax} tax',
+                                style: Style.textStyle(
+                                  fontSize: 10,
+                                  color: ColorRes.grey,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '  \$${widget.data.offerPrice}',
-                              style: Style.textStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: ColorRes.successColor,
-                              ),
-                            ),
-                            Text(
-                              '\$${widget.data.price}',
-                              style: Style.textStyle(
-                                decoration: TextDecoration.lineThrough,
-                                fontSize: 12,
-                                color: ColorRes.errorColor,
-                              ),
-                            ),
-                            Text(
-                              '+ \$${widget.data.tax} tax',
-                              style: Style.textStyle(
-                                fontSize: 10,
-                                color: ColorRes.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(height: 20.h, color: ColorRes.ultraLightGrey),
-                    Text(
-                      'Aminities',
-                      style: Style.textStyle(
-                        fontWeight: FontWeight.w500,
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 5.h),
-                    Wrap(
-                      runSpacing: 5.h,
-                      spacing: 5.w,
-                      children: [
-                        'Wi-Fi',
-                        '65" HDTV',
-                        'Indoor fireplace',
-                        'Hair dryer',
-                        'Washing machine',
-                        'Dryer',
-                        'Refrigerator',
-                        'Dishwasher'
-                      ]
-                          .map(
-                            (e) => Container(
-                              decoration: BoxDecoration(
-                                color: ColorRes.ultraLightGrey,
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10.w,
-                                vertical: 2.h,
-                              ),
-                              child: Text(e),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    Divider(height: 20.h, color: ColorRes.ultraLightGrey),
-                    Row(
-                      children: [
-                        Image.asset(
-                          AssetsRes.checkin,
-                          height: 20.sp,
-                          color: ColorRes.black,
+                      Divider(height: 20.h, color: ColorRes.ultraLightGrey),
+                      Text(
+                        'Aminities',
+                        style: Style.textStyle(
+                          fontWeight: FontWeight.w500,
                         ),
-                        SizedBox(width: 5.w),
-                        Text(
-                          'Self check-in',
-                          style: Style.textStyle(
-                            fontWeight: FontWeight.w500,
+                      ),
+                      SizedBox(height: 5.h),
+                      Wrap(
+                        runSpacing: 5.h,
+                        spacing: 5.w,
+                        children: [
+                          'Wi-Fi',
+                          '65" HDTV',
+                          'Indoor fireplace',
+                          'Hair dryer',
+                          'Washing machine',
+                          'Dryer',
+                          'Refrigerator',
+                          'Dishwasher'
+                        ]
+                            .map(
+                              (e) => Container(
+                                decoration: BoxDecoration(
+                                  color: ColorRes.ultraLightGrey,
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 2.h,
+                                ),
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      Divider(height: 20.h, color: ColorRes.ultraLightGrey),
+                      Row(
+                        children: [
+                          Image.asset(
+                            AssetsRes.checkin,
+                            height: 20.sp,
+                            color: ColorRes.black,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5.h),
-                    Text(
-                      'Check yourself in with lockbox',
-                      style: Style.textStyle(
-                        color: ColorRes.grey,
-                        fontSize: 11,
-                      ),
-                    ),
-                    Divider(height: 20.h, color: ColorRes.ultraLightGrey),
-                    Row(
-                      children: [
-                        Image.asset(
-                          AssetsRes.checkin,
-                          height: 20.sp,
-                          color: ColorRes.black,
-                        ),
-                        SizedBox(width: 5.w),
-                        Text(
-                          'Great check-in experience',
-                          style: Style.textStyle(
-                            fontWeight: FontWeight.w500,
+                          SizedBox(width: 5.w),
+                          Text(
+                            'Self check-in',
+                            style: Style.textStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5.h),
-                    Text(
-                      '100% of recent guests gave the check-in process a 5-star rating',
-                      style: Style.textStyle(
-                        color: ColorRes.grey,
-                        fontSize: 11,
+                        ],
                       ),
-                    ),
-                    SafeArea(top: false, child: SizedBox(height: 50.h)),
-                  ],
+                      SizedBox(height: 5.h),
+                      Text(
+                        'Check yourself in with lockbox',
+                        style: Style.textStyle(
+                          color: ColorRes.grey,
+                          fontSize: 11,
+                        ),
+                      ),
+                      Divider(height: 20.h, color: ColorRes.ultraLightGrey),
+                      Row(
+                        children: [
+                          Image.asset(
+                            AssetsRes.checkin,
+                            height: 20.sp,
+                            color: ColorRes.black,
+                          ),
+                          SizedBox(width: 5.w),
+                          Text(
+                            'Great check-in experience',
+                            style: Style.textStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.h),
+                      Text(
+                        '100% of recent guests gave the check-in process a 5-star rating',
+                        style: Style.textStyle(
+                          color: ColorRes.grey,
+                          fontSize: 11,
+                        ),
+                      ),
+                      SafeArea(top: false, child: SizedBox(height: 50.h)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         extendBody: true,
@@ -306,7 +315,12 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                   decoration: BoxDecoration(
                     color: ColorRes.black.withOpacity(0.8),
                   ),
-                  padding: EdgeInsets.only(left: 20.w, right: 6.w,top: 5.h,bottom: 5.h,),
+                  padding: EdgeInsets.only(
+                    left: 20.w,
+                    right: 6.w,
+                    top: 5.h,
+                    bottom: 5.h,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:hotel_booking_ui/model/hotel_model.dart';
 import 'package:hotel_booking_ui/screens/hotel_detail/hotel_detail_screen.dart';
 import 'package:hotel_booking_ui/utils/color_res.dart';
@@ -15,16 +14,16 @@ class HotelItemView extends StatelessWidget {
     return InkWell(
       onTap: () {
         showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) {
-      return FractionallySizedBox(
-        heightFactor: 0.9,
-
-        child: HotelDetailScreen(data),
-      );
-    });
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) {
+            return FractionallySizedBox(
+              heightFactor: 0.9,
+              child: HotelDetailScreen(data),
+            );
+          },
+        );
       },
       child: Container(
         height: 220.h,
